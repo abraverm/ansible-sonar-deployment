@@ -1,0 +1,25 @@
+---
+# RHEL/CentOS only. Set a repository to use for PostgreSQL installation.
+postgresql_enablerepo: "pgdg96"
+postgresql_version: 9.6
+postgresql_data_dir: /var/lib/pgsql/9.6/data
+postgresql_bin_path: /usr/pgsql-9.6/bin
+postgresql_config_path: /var/lib/pgsql/9.6/data
+postgresql_daemon: postgresql-9.6.service
+postgresql_packages:
+  - postgresql96
+  - postgresql96-server
+  - postgresql96-libs
+  - postgresql96-contrib
+  - postgresql96-devel
+
+# Global configuration options that will be set in postgresql.conf.
+postgresql_global_config_options:
+    - option: listen_addresses
+      value: '*'
+
+# Host based authentication (hba) entries to be added to the pg_hba.conf. This
+# variable's defaults reflect the defaults that come with a fresh installation.
+postgresql_hba_entries:
+  - { type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: trust }
+  - { type: local, database: all, user: all, auth_method: trust }

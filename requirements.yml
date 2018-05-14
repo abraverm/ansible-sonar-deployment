@@ -1,0 +1,6 @@
+---
+- src: geerlingguy.java
+- src: https://github.com/shakedlokits/ansible-role-sonar
+  version: postgresql
+  name: sonar
+- src: geerlingguy.postgresql
