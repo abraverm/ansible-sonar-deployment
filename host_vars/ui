@@ -1,4 +1,7 @@
 ---
+sonar: ui
+java_packages:
+  - java-1.8.0-openjdk
 workspace: /root
 sonar_download_validate_certs: yes
 
@@ -15,18 +18,20 @@ sonar_plugins_url: [
   ]
 
 # Default: move - Values: move, copy, link
-sonar_install_method: "link"
+sonar_install_method: move
 
 # The Database engine.
 # possible values: postgres and mysql
 sonar_database_engine: postgres
 
 # Database connection details
-sonar_database_username: sonar
-sonar_database_password: sonar
+sonar_database_username: postgres
+sonar_database_password: postgres
 
-sonar_database_host: "{{ hostvars['sqldb']['ansible_host'] }}"
+sonar_database_host: "{{ hostvars['db']['ansible_host'] }}"
 
 # mysqlsql default port is 3306 and the postgres' is 5432
 sonar_database_port: "5432"
 sonar_database_name: sonar
+
+postgresql_user: root

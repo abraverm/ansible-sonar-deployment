@@ -1,108 +1,30 @@
 ---
-# @Author: Shaked Lokits <slokits>
-# @Date:   2018-04-29T14:50:59+03:00
-# @Email:  shaked.lokits@gmail.com
-# @Last modified by:   slokits
-# @Last modified time: 2018-05-14T19:59:08+03:00
-
-#     _____                        ____        __
-#    / ___/____  ____  ____ ______/ __ \__  __/ /_  ___
-#    \__ \/ __ \/ __ \/ __ `/ ___/ / / / / / / __ \/ _ \
-#   ___/ / /_/ / / / / /_/ / /  / /_/ / /_/ / /_/ /  __/
-#  /____/\____/_/ /_/\__,_/_/   \___\_\__,_/_.___/\___/
-#      ____             __                                 __
-#     / __ \___  ____  / /___  __  ______ ___  ___  ____  / /_
-#    / / / / _ \/ __ \/ / __ \/ / / / __ `__ \/ _ \/ __ \/ __/
-#   / /_/ /  __/ /_/ / / /_/ / /_/ / / / / / /  __/ / / / /_
-#  /_____/\___/ .___/_/\____/\__, /_/ /_/ /_/\___/_/ /_/\__/
-#            /_/            /____/
-
-# =========================== #
-#           Database          #
-# =========================== #
-
-- hosts: sqldb
+- hosts: all
   gather_facts: yes
   become: yes
+  vars_prompt:
+  - name: "rhsm_username"
+    prompt: "Enter RHN username"
+    private: no
+  - name: "rhsm_password"
+    prompt: "Enter RHN password"
+    private: yes
+  tasks:
+  - name: initialize subscription manager
+    include_tasks: rhel.yml
+    when: ansible_os_family == "RedHat"
 
-  vars_files:
-    - vars/postgresql.yml
-    - vars/credentials.yml
+  - name: disable security
+    include_tasks: security.yml
 
-  pre_tasks:
-    - name: Make selinux permissive
-      selinux:
-        policy: targeted
-        state: permissive
+  - include_role:
+      name: geerlingguy.postgresql
+    when: sonar == "db"
 
-    - name: Register and subscribe to RHSM
-      redhat_subscription:
-        state: present
-        username: "{{ rhsm_username }}"
-        password: "{{ rhsm_password }}"
-        auto_attach: true
+  - include_role:
+      name: geerlingguy.java
+    when: sonar == "ui"
 
-    - name: Disable all RHSM repositories
-      rhsm_repository:
-        name: '*'
-        state: disabled
-
-    - name: Enable rhel-7-server-rpms repositories
-      rhsm_repository:
-        name: "{{ item }}"
-        state: enabled
-      with_items:
-        - rhel-7-server-rpms
-        - rhel-7-server-optional-rpms
-
-    - name: Install PostgreSQL 9.6 repository
-      yum:
-        name: https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
-        state: present
-
-    - name: Make sure firewall is stopped
-      systemd: state=stopped name=firewalld
-
-  roles:
-    - geerlingguy.postgresql
-
-
-# =========================== #
-#           Server            #
-# =========================== #
-
-- hosts: sonarqube
-  gather_facts: yes
-  become: yes
-
-  vars_files:
-    - vars/sonar.yml
-    - vars/credentials.yml
-
-  pre_tasks:
-    - name: Make sure firewall is stopped
-      systemd: state=stopped name=firewalld
-
-    - name: Register and subscribe to RHSM
-      redhat_subscription:
-        state: present
-        username: "{{ rhsm_username }}"
-        password: "{{ rhsm_password }}"
-        auto_attach: true
-
-    - name: Disable all RHSM repositories
-      rhsm_repository:
-        name: '*'
-        state: disabled
-
-    - name: Enable rhel-7-server-rpms repositories
-      rhsm_repository:
-        name: "{{ item }}"
-        state: enabled
-      with_items:
-        - rhel-7-server-rpms
-        - rhel-7-server-optional-rpms
-
-  roles:
-    - geerlingguy.java
-    - sonar
+  - include_role:
+      name: sonar
+    when: sonar == "ui"
