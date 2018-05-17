@@ -1,0 +1,9 @@
+- name: Make selinux permissive
+  selinux:
+    policy: targeted
+    state: permissive
+  when: ansible_os_family == "RedHat"
+
+- name: Make sure firewall is stopped
+  systemd: state=stopped name=firewalld
+  when: ansible_os_family == "RedHat"
