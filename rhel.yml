@@ -26,4 +26,4 @@
   with_items:
   - unzip
   - python-psycopg2
-  - MySQL-python
+#  - MySQL-python
