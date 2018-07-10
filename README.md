@@ -1,22 +1,23 @@
-Install required roles by:
-
+###Install required roles by:
+```sh
    -  ansible-galaxy install -r ./roles/requirements.yml -p roles
+```
  
-Edit the inventory file with your ui and db hosts. 
+###Edit the inventory file with your ui and db hosts. 
 
-Deploy your env by running:
-
+###Deploy your env by running:
+```sh
    - ansible-playbook -i inventory playbook.yml
+```
 
-
-For Ansible-Tower:
+#For Ansible-Tower:
 
  -  Inventory
 
     - Create inventory of 2 hosts. The name of the hosts would be "db" and "ui".
     - Include the next extra_vars for every host:
-	 -  ansible_host: {Enter your host here}
-	 -  ansible_ssh_user: root 
+	 * [ansible_host:] {Enter your host here}
+	 * [ansible_ssh_user:] root 
 
  - Project
 
