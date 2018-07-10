@@ -1,24 +1,30 @@
 Install required roles by:
 
   ansible-galaxy install -r ./roles/requirements.yml -p roles
+ 
+Edit the inventory file with your ui and db hosts. 
+
+Deploy your env by running:
+
+  ansible-playbook -i inventory playbook.yml
 
 
 For Ansible-Tower:
 
- Inventory
+ -  Inventory
 
- - Create inventory of 2 hosts. The name of the hosts would be "db" and "ui".
- - Include the next extra_vars for every host:
-	 ansible_host: <Enter your host here>
-	 ansible_ssh_user: root 
+    - Create inventory of 2 hosts. The name of the hosts would be "db" and "ui".
+    - Include the next extra_vars for every host:
+	 -  ansible_host: {Enter your host here}
+	 -  ansible_ssh_user: root 
 
- Project
+ - Project
 
- - Create project for sonar and connect it to our git repo
+    - Create project for sonar and connect it to our git repo
 
 
- Job_Template
+ - Job_Template
 
- - Create one under sonar project you have been created.
- - Choose playbook.yml file from sonar project.
- - choose our inventory with the 2 hosts.
+    - Create one under sonar project you have been created.
+    - Choose playbook.yml file from sonar project.
+    - choose our inventory with the 2 hosts.
