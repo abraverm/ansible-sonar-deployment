@@ -15,8 +15,8 @@ For Ansible-Tower:
 
     - Create inventory of 2 hosts. The name of the hosts would be "db" and "ui".
     - Include the next extra_vars for every host:
-	 -  ansible_host: {Enter your host here}
-	 -  ansible_ssh_user: root 
+	 >  ansible_host: {Enter your host here}
+	 >  ansible_ssh_user: root 
 
  - Project
 
