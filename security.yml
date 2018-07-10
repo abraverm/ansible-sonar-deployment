@@ -4,6 +4,11 @@
     state: permissive
   when: ansible_os_family == "RedHat"
 
+- name: install firewalld package
+  yum:
+    name: firewalld
+    state: present
+
 - name: Make sure firewall is stopped
   systemd: state=stopped name=firewalld
   when: ansible_os_family == "RedHat"
