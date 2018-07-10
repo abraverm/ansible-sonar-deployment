@@ -1,12 +1,12 @@
 Install required roles by:
 
-  ansible-galaxy install -r ./roles/requirements.yml -p roles
+   -  ansible-galaxy install -r ./roles/requirements.yml -p roles
  
 Edit the inventory file with your ui and db hosts. 
 
 Deploy your env by running:
 
-  ansible-playbook -i inventory playbook.yml
+   - ansible-playbook -i inventory playbook.yml
 
 
 For Ansible-Tower:
