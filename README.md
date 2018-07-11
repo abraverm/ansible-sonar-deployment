@@ -22,11 +22,11 @@
 
  - Project
 
-    - Create project for sonar and connect it to our git repo
+    - Create project for sonar and connect it to git repo
 
 
  - Job_Template
 
     - Create one under sonar project you have been created.
     - Choose playbook.yml file from sonar project.
-    - choose our inventory with the 2 hosts.
+    - choose inventory with the 2 hosts.
