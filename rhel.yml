@@ -25,3 +25,4 @@
     name: "{{ item }}"
   with_items:
   - unzip
+  - python-psycopg2
