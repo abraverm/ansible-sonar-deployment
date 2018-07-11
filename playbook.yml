@@ -21,9 +21,11 @@
       name: geerlingguy.postgresql
     when: sonar == "db"
 
+# we are not using "loop" over the roles to prevent ansible tower bug: https://bugzilla.redhat.com/show_bug.cgi?id=1600124 
   - include_role:
-      name: "{{ item }}"
+      name: geerlingguy.java
     when: sonar == "ui"
-    with_items:
-    - geerlingguy.java
-    - sonar
+
+  - include_role:
+      name: sonar
+    when: sonar == "ui"
